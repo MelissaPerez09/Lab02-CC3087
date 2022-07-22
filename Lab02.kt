@@ -23,77 +23,44 @@ fun main() {
 // --- Process List function ---
 // Analizes the types with their information
 fun processList(inputList: List<Any?>?): List<ItemData>? {
-    var i: Int = 0
-    val lista = ArrayList<ItemData>()
+    val newList = ArrayList<ItemData>()
+    if (inputList == null) return null                  //evaluates if the list is null
+    for((index, item) in inputList.withIndex()){
+        if (item != null){
+            var newInfo = ItemData(
+                originalPos = index,
+                originalValue = item,
+                type = type(item),
+                info = info(item))
+            newList.add(newInfo) }}
+    return newList }
 
-    //evaluates if the list is null
-    if (inputList == null) return null
+// --- Type function ---
+//function that analizes the type of the value
+fun type(item: Any):String{
+    return when(item){
+        is String -> "cadena"
+        is Int -> "entero"
+        is Boolean -> "booleano"
+        else -> "null"
+    } }
 
-    for (element in inputList){
+// --- Info function ---
+//function that provides the information about the value
+fun info(item: Any):String{
+    return when(item){
+        is String -> "L" + item.length
+        is Int -> multiple(item)
+        is Boolean -> if (item) "verdadero" else "falso"
+        else -> "null"
+    } }
 
-        //define the variables
-        var tipo: String? = ""
-        var inf: String? = ""
-        var p = i
-        i = i+1
-
-        if(element != null){
-            when (element) {
-
-                //string type
-                is String ->{
-                    tipo = "cadena"
-                    inf = ("L" + element.length)
-                }
-
-                //int type
-                is Int -> {
-                    tipo = "entero"
-                    if (element%10 == 0){
-                        inf = "M10"
-                    }
-                    else if (element%5 == 0){
-                        inf = "M5"
-                    }
-                    else if (element%2 == 0){
-                        inf = "M2"
-                    }
-                    else{
-                        inf = null
-                    }
-                }
-
-                //boolean type
-                is Boolean ->{
-                    tipo = "booleano"
-                    if(element == true){
-                        inf = "verdadero"
-                    }
-
-                    else if(element == false){
-                        inf ="falso"
-                    }
-                    else{
-                        inf = null
-                    }
-                }
-
-                //null type
-                else -> {
-                    tipo = null
-                    inf = null
-                }
-            }
-
-            //concentrates the information to the main list
-            val informacion = ItemData(
-                originalPos = p,
-                originalValue = element,
-                type = tipo,
-                info = inf
-            )
-            lista.add(informacion)
-        }
-    }
-    return lista
+// --- Multiple function ---
+//function that evaluates the multiple of an Int
+fun multiple (int: Int):String{
+    var info: String = "-"
+    if (int%10 == 0)info = "M10"
+    else if (int%5 == 0)info = "M5"
+    else if (int%2 == 0)info = "M2"
+    return info
 }
