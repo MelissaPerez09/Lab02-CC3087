@@ -37,30 +37,31 @@ fun processList(inputList: List<Any?>?): List<ItemData>? {
 
 // --- Type function ---
 //function that analizes the type of the value
-fun type(item: Any):String{
+fun type(item: Any):String?{
     return when(item){
         is String -> "cadena"
         is Int -> "entero"
         is Boolean -> "booleano"
-        else -> "null"
+        else -> null
     } }
 
 // --- Info function ---
 //function that provides the information about the value
-fun info(item: Any):String{
+fun info(item: Any):String?{
     return when(item){
         is String -> "L" + item.length
         is Int -> multiple(item)
         is Boolean -> if (item) "verdadero" else "falso"
-        else -> "null"
+        else -> null
     } }
 
 // --- Multiple function ---
 //function that evaluates the multiple of an Int
-fun multiple (int: Int):String{
-    var info: String = "-"
+fun multiple (int: Int):String?{
+    var info: String? = ""
     if (int%10 == 0)info = "M10"
     else if (int%5 == 0)info = "M5"
     else if (int%2 == 0)info = "M2"
+    else info = null
     return info
 }
